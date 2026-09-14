@@ -142,7 +142,11 @@ var BLOB={
 function bl(u){
   if(u==null)return "";
   var m=String(u).match(/_blob\/([0-9a-f]+)/);
-  if(m&&BLOB[m[1]])return "blob/"+BLOB[m[1]];
+  if(m&&BLOB[m[1]]){
+    var f=BLOB[m[1]], dot=f.lastIndexOf(".");
+    var ext=dot>-1?f.slice(dot):"";
+    return "blob/"+m[1]+ext;   /* files are stored by id, e.g. blob/<id>.png */
+  }
   return u;
 }
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
