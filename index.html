@@ -215,19 +215,39 @@ var RENDER_SETS={
     {t:"Aerial oblique",u:"/_blob/c4b9f532c7601d681ebfca239776fb74"}
   ]}
 };
-var designView="site";
+var designView=null;
+function fallbackSets(){return Object.keys(RENDER_SETS).map(function(k){return {id:k,label:RENDER_SETS[k].label,note:RENDER_SETS[k].note,imgs:RENDER_SETS[k].imgs};});}
+var LIVE_SETS=null;
+function currentSets(){return (LIVE_SETS&&LIVE_SETS.length)?LIVE_SETS:fallbackSets();}
 function setDesignView(v){designView=v;render();}
 function designRenders(){
-  var keys=Object.keys(RENDER_SETS);
-  if(!RENDER_SETS[designView])designView=keys[0];
-  var tabs='<div class="filterbar">'+keys.map(function(k){return '<button class="'+(designView===k?"on":"")+'" onclick="setDesignView(\''+k+'\')">'+esc(RENDER_SETS[k].label)+' · '+RENDER_SETS[k].imgs.length+'</button>'}).join("")+'</div>';
-  var set=RENDER_SETS[designView];
-  var grid='<div class="renders">'+set.imgs.map(function(r){var u=bl(r.u);return '<figure><a href="'+escAttr(u)+'" onclick="openLightbox(\''+u+'\');return false" rel="noopener"><img src="'+escAttr(u)+'" alt="'+escAttr(r.t)+'"><span class="zoom">Enlarge ⤢</span></a><figcaption>'+esc(r.t)+'</figcaption></figure>'}).join("")+'</div>';
-  return '<div class="card"><div class="card-head"><h3>Concept renderings</h3><div class="spacer"></div><span style="font-size:11.5px;color:var(--muted)">every AI render, in one place</span></div>'+
+  var sets=currentSets();
+  if(!sets.length)return "";
+  var cur=null;for(var i=0;i<sets.length;i++){if(sets[i].id===designView){cur=sets[i];break;}}
+  if(!cur){cur=sets[0];designView=cur.id;}
+  var live=(LIVE_SETS&&LIVE_SETS.length)?' · live':'';
+  var tabs='<div class="filterbar">'+sets.map(function(s){return '<button class="'+(designView===s.id?"on":"")+'" onclick="setDesignView(\''+s.id+'\')">'+esc(s.label)+' · '+s.imgs.length+'</button>'}).join("")+'</div>';
+  var grid='<div class="renders">'+cur.imgs.map(function(r){var u=bl(r.u);return '<figure><a href="'+escAttr(u)+'" onclick="openLightbox(\''+u+'\');return false" rel="noopener"><img src="'+escAttr(u)+'" alt="'+escAttr(r.t)+'"><span class="zoom">Enlarge ⤢</span></a><figcaption>'+esc(r.t)+'</figcaption></figure>'}).join("")+'</div>';
+  return '<div class="card"><div class="card-head"><h3>Concept renderings</h3><div class="spacer"></div><span style="font-size:11.5px;color:var(--muted)">every render, in one place'+live+'</span></div>'+
     tabs+
-    '<div class="embed-cap" style="padding:10px 16px 2px">'+esc(set.note)+'</div>'+
+    '<div class="embed-cap" style="padding:10px 16px 2px">'+esc(cur.note||"")+'</div>'+
     grid+
     '<div class="embed-cap" style="padding:0 16px 14px">Click any image to open it full-size. Visualization only — not construction drawings.</div></div>';
+}
+var SB_URL="https://xlppottqrmqapqtuypvn.supabase.co";
+var SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhscHBvdHRxcm1xYXBxdHV5cHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzOTg5NDMsImV4cCI6MjEwNDk3NDk0M30.Pe2W-seJHI6g1lWDX94uVE4sX4CZhVO1RZVdN5yx3QQ";
+function loadLive(){
+  try{
+    fetch(SB_URL+"/rest/v1/kv?select=v&k=eq.state",{headers:{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY},cache:"no-store"})
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(rows){
+      try{
+        var v=rows&&rows[0]&&rows[0].v;
+        var st=(typeof v==="string")?JSON.parse(v):v;
+        if(st&&st.designSets&&st.designSets.length){LIVE_SETS=st.designSets;designView=null;render();}
+      }catch(e){}
+    }).catch(function(){});
+  }catch(e){}
 }
 function render(){
   document.getElementById("design").innerHTML=designRenders()+designEmbeds();
@@ -257,6 +277,7 @@ function toggleTheme(){
   applyTheme(t);
 })();
 render();
+loadLive();
 </script>
 </body>
 </html>
