@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Town Hall St. Pete — Design</title>
+<style>
+:root{
+  --bg:#faf9f5; --surface:#ffffff; --surface-2:#f4f2ea; --ink:#1f1e1b; --muted:#6f6a5d;
+  --line:#e3e0d6; --gold:#a67c00; --green:#157a5b; --red:#c0392b; --blue:#1f6fb2;
+  --shadow:0 1px 2px rgba(31,30,27,.06),0 4px 14px rgba(31,30,27,.05);
+  --radius:12px;
+}
+:root[data-theme="dark"]{
+  --bg:#1a1917; --surface:#242320; --surface-2:#2c2b27; --ink:#f2efe6; --muted:#a49e90;
+  --line:#38362f; --gold:#d6a733; --green:#3fbf93; --red:#e57368; --blue:#5aa6e0;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.35);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#1a1917; --surface:#242320; --surface-2:#2c2b27; --ink:#f2efe6; --muted:#a49e90;
+    --line:#38362f; --gold:#d6a733; --green:#3fbf93; --red:#e57368; --blue:#5aa6e0;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.35);
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+img{max-width:100%}
+button{font:inherit;cursor:pointer;color:inherit}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+
+.topbar{display:flex;align-items:center;gap:12px;padding:14px 22px;border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:20}
+.topbar .mk{width:30px;height:30px;border-radius:8px;background:var(--gold);color:#fff;display:grid;place-items:center;font-size:17px;flex-shrink:0}
+.topbar h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.2px}
+.topbar .sub{font-size:11.5px;color:var(--muted);margin-top:1px}
+.topbar .spacer{flex:1}
+.pill-btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 12px;display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--ink)}
+.pill-btn:hover{background:var(--surface-2);text-decoration:none}
+.pill-btn.primary{background:var(--gold);color:#fff;border-color:var(--gold)}
+.pill-btn.primary:hover{filter:brightness(1.05)}
+
+.content{padding:22px;max-width:1360px;width:100%;margin:0 auto}
+.sec-title{font-size:22px;font-weight:700;margin:0 0 2px}
+.sec-desc{color:var(--muted);margin:0 0 18px;font-size:13.5px;max-width:820px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:18px;overflow:hidden}
+.card-head{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.card-head h3{margin:0;font-size:14px;font-weight:600}
+.card-head .spacer{flex:1}
+
+.filterbar{display:flex;flex-wrap:wrap;gap:6px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.filterbar button{border:1px solid var(--line);background:var(--surface);border-radius:20px;padding:5px 12px;font-size:12.5px;color:var(--muted)}
+.filterbar button.on{background:var(--gold);color:#fff;border-color:var(--gold)}
+
+/* Embedded attachments */
+.embedwrap{padding:4px}
+.embed-item{padding:14px 16px;border-bottom:1px solid var(--line)}
+.embed-item:last-child{border-bottom:0}
+.embed-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.embed-head .t{font-weight:700;font-size:15px}
+.embed-head .m{color:var(--muted);font-size:12px}
+.embed-doc{display:block;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;position:relative}
+.embed-doc img{display:block;width:100%;max-height:74vh;object-fit:contain;background:#fff}
+.embed-doc .zoom{position:absolute;top:8px;right:8px;background:rgba(31,30,27,.72);color:#fff;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px}
+.embed-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.embed-cap{font-size:12.5px;color:var(--muted);margin-top:8px;max-width:640px}
+.renders{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;padding:14px 16px}
+@media(max-width:520px){.renders{grid-template-columns:1fr}}
+.renders figure{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface-2)}
+.renders a{position:relative;display:block}
+.renders img{display:block;width:100%;cursor:zoom-in}
+.renders .zoom{position:absolute;top:8px;right:8px;background:rgba(31,30,27,.72);color:#fff;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;opacity:0;transition:opacity .12s}
+.renders figure:hover .zoom{opacity:1}
+.renders figcaption{font-size:12px;color:var(--muted);padding:8px 10px;font-weight:500}
+
+.lightbox{position:fixed;inset:0;background:rgba(12,11,10,.92);display:flex;align-items:center;justify-content:center;z-index:200;padding:16px;cursor:zoom-out}
+.lightbox img{max-width:96vw;max-height:92vh;object-fit:contain;border-radius:8px;box-shadow:0 12px 48px rgba(0,0,0,.55)}
+.lightbox .lbx{position:fixed;top:14px;right:20px;color:#fff;font-size:30px;line-height:1;background:transparent;border:0;cursor:pointer;z-index:201;opacity:.85}
+.lightbox .lbx:hover{opacity:1}
+.footer{color:var(--muted);font-size:11.5px;text-align:center;padding:8px 22px 30px}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="mk">🏛️</div>
+  <div>
+    <h1>Town Hall St. Pete — Design</h1>
+    <div class="sub">Concept renderings &amp; floor-plan layouts · 278 Central Ave</div>
+  </div>
+  <div class="spacer"></div>
+  <button class="pill-btn" id="themeBtn" onclick="toggleTheme()">🌙 Dark</button>
+</div>
+<div class="content">
+  <h2 class="sec-title">Design</h2>
+  <p class="sec-desc">The look and layout of Town Hall St. Pete. Every AI concept rendering — as-built site, patio scenarios, and the cedar/black and white-brick explorations — plus the latest architect floor-plan and square-footage plans. Click any image to open it full-size.</p>
+  <div id="design"></div>
+</div>
+<div class="footer">Visualization only — not construction drawings.</div>
+<div id="layer"></div>
+
+<script>
+/* blob id -> bundled filename */
+var BLOB={
+ "8aa6d15a55364e835c263b997cb325ea":"de_layout.pdf",
+ "68612b81b56635dff1df7c3e3d8194b3":"de_page1.png",
+ "67ed15f64038fbd489006a848adfb33a":"sqft.pdf",
+ "4b3148b531480dc97708b9c2484e80e6":"sqft_p1.png",
+ "82f753410697e05a1c20db0fd66741b7":"th_black_A.png",
+ "cf883ee18ebd20f33671dff2123bdc3a":"th_black_B.png",
+ "2a34686e91098270c8abdc33219fd951":"th_dusk.png",
+ "a8f6293f73f106bcff5a12c171d1e8ce":"th_frontal.png",
+ "f64eddeeeaddbea7143166ce275aa10a":"th_aerial.png",
+ "7222a3e2a69bf28a9da38def9a194bc2":"townhall_render_A.png",
+ "ef4414e36faa9de02366332f5903f81f":"townhall_render_B.png",
+ "a8e70e8f16e16dcc2219a50d1508a0bd":"townhall_scale_A.png",
+ "e3f29f98cd6a58717bb645de286e263c":"townhall_scale_B.png",
+ "667bbc4cbdadbd983d7099b3e2ff9122":"white_frontal.png",
+ "5c224c30147f58feef7c8db12acdec29":"white_dusk.png",
+ "c4b9f532c7601d681ebfca239776fb74":"white_aerial.png",
+ "c976bbae4923c227f62ce163d35b2b7b":"site_west.png",
+ "425c5aa019c6c0029a3f73b231af99bd":"site_storefront.png",
+ "2e8755a822055d93af7e6d9b5c63f5f5":"site_night.png",
+ "2747e0a3b4cf363d7af68415667a2092":"site_colonnade.png",
+ "6b779199e3901c11e415ef39775b4f14":"site_plaza.png",
+ "905fbe1aee3d580d6e1fbd09981950d4":"site_aerial.png",
+ "e006084f499d594ad43a2707d8542d38":"sc1_base.png",
+ "7cb2fc1e87dcb1e54237ae95c2634cbe":"sc2_half.png",
+ "414d4396247341fd5ba18ca0d0bc26eb":"sc3_full.png",
+ "3ad11a5a172934f4f09c27716d83f5a1":"sc4_west.png",
+ "52fc77b3ecd5eded23d75beb21f0d758":"sc5_max.png",
+ "69dc86723ccf516df2991449840c70bb":"sc6_westonly.png",
+ "d61991e128ebc320796e4623247cd7ca":"fb_base.png",
+ "72f7424236349d77991b3983f205e166":"fb_covered.png",
+ "9c888d6f23571e1c1e3cbd6519f333b9":"fb_max.png",
+ "fc52c31ffbbc8ba431da64e172da4b74":"nw_glazed.png",
+ "ccda47a2dba7953170cdbd54e720a0aa":"nw_open.png",
+ "7988c8b82636ad8b1f330d8a3e39ad44":"nw_extlid.png"
+};
+/* resolve a /_blob/<id> reference to the bundled relative path */
+function bl(u){
+  if(u==null)return "";
+  var m=String(u).match(/_blob\/([0-9a-f]+)/);
+  if(m&&BLOB[m[1]])return "blob/"+BLOB[m[1]];
+  return u;
+}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function escAttr(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}
+function card(title,body){return '<div class="card"><div class="card-head"><h3>'+esc(title)+'</h3></div>'+body+'</div>'}
+
+var EMBED=[
+  {title:"Town Hall St. Pete — Layout, Versions D & E",
+   from:"Joseph Hanna, Architect → via Andy Himmel",date:"Sept 2026",
+   file:"Version D & E _09-01-26.pdf · 1.74 MB",
+   img:"/_blob/68612b81b56635dff1df7c3e3d8194b3",pdf:"/_blob/8aa6d15a55364e835c263b997cb325ea",
+   note:"Latest floor-plan mock. The preview shows page 1 — click it or “Open full PDF” for the complete multi-page layout, which you can open, zoom, and print."},
+  {title:"Town Hall St. Pete — Square Footage Plan",
+   from:"Ryan Barry, Coastal City Solutions → via Andy Himmel",date:"31-Aug-2026 (CCS)",
+   file:"TAH - square footage plan.pdf · 958 KB",
+   img:"/_blob/4b3148b531480dc97708b9c2484e80e6",pdf:"/_blob/67ed15f64038fbd489006a848adfb33a",
+   note:"Area breakdown from the plan: Interior 4,936 sf · Covered patio 1,120 sf (the ~10 ft colonnade) · ROW patio 1,101 sf (open plaza) · Sidewalk-N 460 · Sidewalk-W 250 · Potential ROW 558. Click the preview or “Open full PDF” for the dimensioned drawing."}
+];
+function designEmbeds(){
+  var items=EMBED.map(function(e){
+    var pdf=bl(e.pdf), img=bl(e.img);
+    var openPdf=pdf?'<a class="pill-btn primary" href="'+escAttr(pdf)+'" target="_blank" rel="noopener">Open full PDF ↗</a>':'';
+    var pic=img?'<a class="embed-doc" href="'+escAttr(img)+'" onclick="openLightbox(\''+img+'\');return false" rel="noopener"><span class="zoom">Enlarge ⤢</span><img src="'+escAttr(img)+'" alt="'+escAttr(e.title)+'"></a>':'';
+    return '<div class="embed-item"><div class="embed-head"><span class="t">'+esc(e.title)+'</span><span class="m">'+esc(e.from)+' · '+esc(e.date)+' · '+esc(e.file)+'</span></div>'+
+      pic+'<div class="embed-actions">'+openPdf+'</div>'+(e.note?'<div class="embed-cap">'+esc(e.note)+'</div>':'')+'</div>';
+  }).join("");
+  return card("Floor plans & square footage — architect PDFs",'<div class="embedwrap">'+items+'</div>');
+}
+var RENDER_SETS={
+  site:{label:"As-Built Site",note:"On the ACTUAL building (288 — cream stucco tower, perforated-metal garage podium, round columns, bronze awnings, grey paver plaza). Town Hall storefront under the ~10 ft covered colonnade; open-air dining on the plaza. Per the sq-ft plan: 4,936 interior · 1,120 covered patio · 1,101 ROW patio · 460 sidewalk-N · 250 sidewalk-W.",imgs:[
+    {t:"West frontage — daytime",u:"/_blob/c976bbae4923c227f62ce163d35b2b7b"},
+    {t:"Main storefront",u:"/_blob/425c5aa019c6c0029a3f73b231af99bd"},
+    {t:"Night",u:"/_blob/2e8755a822055d93af7e6d9b5c63f5f5"},
+    {t:"Down the colonnade",u:"/_blob/2747e0a3b4cf363d7af68415667a2092"},
+    {t:"From the plaza",u:"/_blob/6b779199e3901c11e415ef39775b4f14"},
+    {t:"Aerial oblique",u:"/_blob/905fbe1aee3d580d6e1fbd09981950d4"}
+  ]},
+  scenarios:{label:"Patio Scenarios",note:"Options for the outdoor patio at 278 Central Ave (per the sq-ft plan). FIXED: the GREEN covered zone (1,120 sf) is always an operable NanaWall (folding-glass) extension of the interior — a year-round space up to the building overhang; RED (1,101) + YELLOW (558) ROW patios are approved for seating (cover TBD). VARIABLE: covering red/yellow; the solid “hard lid” can extend past the fixed NanaWall base; the BLUE sidewalk patios (N 460 / W 250) need a 5-ft variance. Full-building views show the glass tower + perforated-metal podium above.",imgs:[
+    {t:"Full building · Base (uncovered)",u:"/_blob/d61991e128ebc320796e4623247cd7ca"},
+    {t:"Full building · Fully covered",u:"/_blob/72f7424236349d77991b3983f205e166"},
+    {t:"Full building · Full build-out",u:"/_blob/9c888d6f23571e1c1e3cbd6519f333b9"},
+    {t:"West-only · NanaWall glazed (year-round)",u:"/_blob/fc52c31ffbbc8ba431da64e172da4b74"},
+    {t:"West-only · NanaWall open",u:"/_blob/ccda47a2dba7953170cdbd54e720a0aa"},
+    {t:"West-only · NanaWall + extended hard lid",u:"/_blob/7988c8b82636ad8b1f330d8a3e39ad44"},
+    {t:"Base — approved, uncovered",u:"/_blob/e006084f499d594ad43a2707d8542d38"},
+    {t:"Outer patio half-covered",u:"/_blob/7cb2fc1e87dcb1e54237ae95c2634cbe"},
+    {t:"Outer patio fully covered",u:"/_blob/414d4396247341fd5ba18ca0d0bc26eb"},
+    {t:"West sidewalk activated",u:"/_blob/3ad11a5a172934f4f09c27716d83f5a1"},
+    {t:"Full build-out (max)",u:"/_blob/52fc77b3ecd5eded23d75beb21f0d758"},
+    {t:"Variance WEST only (not front/north)",u:"/_blob/69dc86723ccf516df2991449840c70bb"}
+  ]},
+  cedar:{label:"Cedar / Black",note:"Current concept — reference-accurate: black brick + cedar fascia, the “townhall” wordmark + TH medallion, living-wall greenery, and an open-air wood-railed patio (only the shallow ~10 ft fascia overhang is covered). Grounded in the real Ohio City / Short North exteriors and the Version D scale.",imgs:[
+    {t:"Corner view",u:"/_blob/82f753410697e05a1c20db0fd66741b7"},
+    {t:"Down Central Ave",u:"/_blob/cf883ee18ebd20f33671dff2123bdc3a"},
+    {t:"Dusk corner",u:"/_blob/2a34686e91098270c8abdc33219fd951"},
+    {t:"Frontal elevation",u:"/_blob/a8f6293f73f106bcff5a12c171d1e8ce"},
+    {t:"Aerial oblique",u:"/_blob/f64eddeeeaddbea7143166ce275aa10a"}
+  ]},
+  white:{label:"White Brick",note:"Earlier exploration in white brick with cream umbrellas, before we matched the real Town Hall black + natural-wood look — kept here for reference.",imgs:[
+    {t:"Corner view",u:"/_blob/7222a3e2a69bf28a9da38def9a194bc2"},
+    {t:"Down Central Ave",u:"/_blob/ef4414e36faa9de02366332f5903f81f"},
+    {t:"To-scale wide · A",u:"/_blob/a8e70e8f16e16dcc2219a50d1508a0bd"},
+    {t:"To-scale wide · B",u:"/_blob/e3f29f98cd6a58717bb645de286e263c"},
+    {t:"Frontal elevation",u:"/_blob/667bbc4cbdadbd983d7099b3e2ff9122"},
+    {t:"Dusk corner",u:"/_blob/5c224c30147f58feef7c8db12acdec29"},
+    {t:"Aerial oblique",u:"/_blob/c4b9f532c7601d681ebfca239776fb74"}
+  ]}
+};
+var designView="site";
+function setDesignView(v){designView=v;render();}
+function designRenders(){
+  var keys=Object.keys(RENDER_SETS);
+  if(!RENDER_SETS[designView])designView=keys[0];
+  var tabs='<div class="filterbar">'+keys.map(function(k){return '<button class="'+(designView===k?"on":"")+'" onclick="setDesignView(\''+k+'\')">'+esc(RENDER_SETS[k].label)+' · '+RENDER_SETS[k].imgs.length+'</button>'}).join("")+'</div>';
+  var set=RENDER_SETS[designView];
+  var grid='<div class="renders">'+set.imgs.map(function(r){var u=bl(r.u);return '<figure><a href="'+escAttr(u)+'" onclick="openLightbox(\''+u+'\');return false" rel="noopener"><img src="'+escAttr(u)+'" alt="'+escAttr(r.t)+'"><span class="zoom">Enlarge ⤢</span></a><figcaption>'+esc(r.t)+'</figcaption></figure>'}).join("")+'</div>';
+  return '<div class="card"><div class="card-head"><h3>Concept renderings</h3><div class="spacer"></div><span style="font-size:11.5px;color:var(--muted)">every AI render, in one place</span></div>'+
+    tabs+
+    '<div class="embed-cap" style="padding:10px 16px 2px">'+esc(set.note)+'</div>'+
+    grid+
+    '<div class="embed-cap" style="padding:0 16px 14px">Click any image to open it full-size. Visualization only — not construction drawings.</div></div>';
+}
+function render(){
+  document.getElementById("design").innerHTML=designRenders()+designEmbeds();
+}
+function openLightbox(url,cap){
+  var l=document.getElementById("layer");
+  l.innerHTML='<div class="lightbox" id="lbx" onclick="closeLightbox()"><button class="lbx" onclick="closeLightbox()" aria-label="Close">×</button><img src="'+escAttr(url)+'" alt="">'+(cap?'<div class="lbcap">'+esc(cap)+'</div>':'')+'</div>';
+}
+function closeLightbox(){var el=document.getElementById("lbx");if(el)el.parentNode.innerHTML=""}
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeLightbox()});
+
+/* theme toggle (persists) */
+function applyTheme(t){
+  var b=document.getElementById("themeBtn");
+  if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");b.textContent="☀️ Light";}
+  else{document.documentElement.setAttribute("data-theme","light");b.textContent="🌙 Dark";}
+}
+function toggleTheme(){
+  var cur=document.documentElement.getAttribute("data-theme")||"light";
+  var next=cur==="dark"?"light":"dark";
+  try{localStorage.setItem("th_design_theme",next)}catch(e){}
+  applyTheme(next);
+}
+(function(){
+  var t="light";
+  try{t=localStorage.getItem("th_design_theme")||"light"}catch(e){}
+  applyTheme(t);
+})();
+render();
+</script>
+</body>
+</html>
