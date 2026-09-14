@@ -1,0 +1,8 @@
+{
+  "githubRepo": "bgeorge2176/town-hall-st-pete-design",
+  "vercelProjectId": "prj_RpPJ7DlYdQGZbuyjf58V5UyQ3yFD",
+  "vercelTeamId": "team_jyxYjaXMwDRLzCxau31WS0KT",
+  "vercelUrl": "https://town-hall-st-pete-design.vercel.app",
+  "note": "PUBLIC standalone Design-only page for Town Hall St. Pete. Static index.html + blob/ assets; NO db/Supabase/state. SSO deployment protection disabled (publicly viewable). X-Robots-Tag noindex. Isolated from the main dashboard (town-hall-st-pete / prj_ofrIdeO1jiUH9fitfXyA52aoasuh) — separate repo + Vercel project. Redeploy: edit index.html, git push main -> Vercel auto-deploys.",
+  "source": "Design tab of /Users/robertgeorge/townhall-stpete-hq (RENDER_SETS galleries + EMBED PDFs), /_blob ids rewritten to blob/<id>.<ext>"
+}
